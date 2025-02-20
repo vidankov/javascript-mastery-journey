@@ -4,12 +4,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="./mySolution.js" charset="UTF-8"></script>
+    <link href="./mySolution.css" rel="stylesheet" />
     <title>Калькулятор чаевых</title>
 </head>
 
 <body>
+    <section class="billData">
+        <p>Калькулятор чаевых</p>
+        <section class="billInput">
+            <label>
+                Количество гостей в счёте:
+            </label>
+            <input type="text"/>
+            <label>
+                Сумма счёта:
+            </label>
+            <input type="text"/>
+            <label>
+                Оставить чаевые?
+            </label>
+                <div class="checkTips">
+                    <input type="checkbox" value="" />
+                </div>
+            <label>
+                Процент чаевых:
+            </label>
+            <input type="text"/>
+        </section>
+        <section class="billDisplay">
+        </section>
+    </section>
 
+    <script src="./mySolution.js" charset="UTF-8"></script>
 </body>
 
 </html>
