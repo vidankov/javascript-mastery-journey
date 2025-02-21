@@ -23,6 +23,14 @@ function validateNumberOfGuests(numberOfGuestsValue) {
     //
 }
 
+function calculateBillAmountWithTips(billAmount, tipsPercentage) {
+    return billAmount * (1 + tipsPercentage / 100);
+}
+
+function calculatePaymentPerPerson(BillAmountWithTips, numberOfGuests) {
+    return BillAmountWithTips / numberOfGuests;
+}
+
 const billInput = document.getElementById("billInput");
 const tipOptionLabel = document.createElement("label");
 const billAmountSelector = document.getElementById("billAmountSelector");
@@ -56,4 +64,3 @@ numberOfGuestsSelector.addEventListener("change", function () {
     // validateNumberOfGuests(numberOfGuestsSelector.value);
     numberOfGuests = numberOfGuestsSelector.value;
 });
-
