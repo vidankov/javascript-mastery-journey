@@ -12,16 +12,19 @@ function setEventListenerToTipPercentageSelector(tipPercentageSelector, tipOptio
     tipPercentageSelector.addEventListener("change", function () {
         tipOptionLabel.innerText = `Процент чаевых: ${tipPercentageSelector.value}%`;
         tipsPercentage = parseInt(tipPercentageSelector.value);
-
-        billAmountWithTips = calculateBillAmountWithTips(billAmount, tipsPercentage);
-        billAmountWithTips = roundUpTwoDigits(billAmountWithTips);
-        billAmountWithTipsDisplay.innerText = `${billAmountWithTips} руб.`;
-
-        let amountPerPerson = calculatePaymentPerPerson(billAmountWithTips, numberOfGuests);
-        amountPerPerson = roundUpTwoDigits(amountPerPerson);
-        paymentPerPerson.innerText = `${amountPerPerson} руб.`;
+        updateBillDisplay();
     });
     tipOptionLabel.innerText = `Процент чаевых: ${tipPercentageSelector.value}%`;
+}
+
+function updateBillDisplay() {
+    billAmountWithTips = calculateBillAmountWithTips(billAmount, tipsPercentage);
+    billAmountWithTips = roundUpTwoDigits(billAmountWithTips);
+    billAmountWithTipsDisplay.innerText = `${billAmountWithTips} руб.`;
+
+    let amountPerPerson = calculatePaymentPerPerson(billAmountWithTips, numberOfGuests);
+    amountPerPerson = roundUpTwoDigits(amountPerPerson);
+    paymentPerPerson.innerText = `${amountPerPerson} руб.`;
 }
 
 function validateBillAmountValue(billAmountValue) {
@@ -80,24 +83,14 @@ document.getElementById("checkPayTips").addEventListener("change", function () {
         billInput.appendChild(tipOptionLabel);
         billInput.appendChild(tipPercentageSelector);
 
-        billAmountWithTips = calculateBillAmountWithTips(billAmount, 10);
-        billAmountWithTips = roundUpTwoDigits(billAmountWithTips);
-        billAmountWithTipsDisplay.innerText = `${billAmountWithTips} руб.`;
-
-        let amountPerPerson = calculatePaymentPerPerson(billAmountWithTips, numberOfGuests);
-        amountPerPerson = roundUpTwoDigits(amountPerPerson);
-        paymentPerPerson.innerText = `${amountPerPerson} руб.`;
+        tipsPercentage = 10;
+        updateBillDisplay()
     } else {
         billInput.removeChild(billInput.lastChild);
         billInput.removeChild(billInput.lastChild);
 
-        billAmountWithTips = calculateBillAmountWithTips(billAmount, 0);
-        billAmountWithTips = roundUpTwoDigits(billAmountWithTips);
-        billAmountWithTipsDisplay.innerText = `${billAmountWithTips} руб.`;
-
-        let amountPerPerson = calculatePaymentPerPerson(billAmountWithTips, numberOfGuests);
-        amountPerPerson = roundUpTwoDigits(amountPerPerson);
-        paymentPerPerson.innerText = `${amountPerPerson} руб.`;
+        tipsPercentage = 0;
+        updateBillDisplay()
     }
 });
 
@@ -105,13 +98,7 @@ billAmountSelector.addEventListener("change", function () {
     billAmount = validateBillAmountValue(billAmountSelector.value);
     billAmount = parseFloat(billAmount);
     billAmountSelector.value = billAmount;
-    billAmountWithTips = calculateBillAmountWithTips(billAmount, tipsPercentage);
-    billAmountWithTips = roundUpTwoDigits(billAmount);
-    billAmountWithTipsDisplay.innerText = `${billAmountWithTips} руб.`;
-
-    let amountPerPerson = calculatePaymentPerPerson(billAmountWithTips, numberOfGuests);
-    amountPerPerson = roundUpTwoDigits(amountPerPerson);
-    paymentPerPerson.innerText = `${amountPerPerson} руб.`;
+    updateBillDisplay()
 });
 
 numberOfGuestsSelector.addEventListener("change", function () {
