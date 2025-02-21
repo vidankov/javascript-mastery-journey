@@ -11,16 +11,37 @@ function createTipPercentageSelector() {
 function setEventListenerToTipPercentageSelector(tipPercentageSelector, tipOptionLabel) {
     tipPercentageSelector.addEventListener("change", function () {
         tipOptionLabel.innerText = `Процент чаевых: ${tipPercentageSelector.value}%`;
+        tipsPercentage = parseInt(tipPercentageSelector.value);
+
+        billAmountWithTips = calculateBillAmountWithTips(billAmount, tipsPercentage);
+        billAmountWithTips = roundUpTwoDigits(billAmountWithTips);
+        billAmountWithTipsDisplay.innerText = `${billAmountWithTips} руб.`;
+
+        let amountPerPerson = calculatePaymentPerPerson(billAmountWithTips, numberOfGuests);
+        amountPerPerson = roundUpTwoDigits(amountPerPerson);
+        paymentPerPerson.innerText = `${amountPerPerson} руб.`;
     });
     tipOptionLabel.innerText = `Процент чаевых: ${tipPercentageSelector.value}%`;
 }
 
 function validateBillAmountValue(billAmountValue) {
-    //
+    if (billAmountValue < 0) {
+        alert("Сумма счёта не может быть меньше нуля!");
+        return 0;
+    }
+    return billAmountValue;
 }
 
 function validateNumberOfGuests(numberOfGuestsValue) {
-    //
+    if (numberOfGuestsValue < 1) {
+        alert("В счёт должен быть включён хотя бы один гость!");
+        return 1;
+    }
+    else if (numberOfGuestsValue > 30) {
+        alert("Максимальное количество гостеё в счёте: 30!");
+        return 30;
+    }
+    return numberOfGuestsValue;
 }
 
 function calculateBillAmountWithTips(billAmount, tipsPercentage) {
@@ -31,16 +52,25 @@ function calculatePaymentPerPerson(BillAmountWithTips, numberOfGuests) {
     return BillAmountWithTips / numberOfGuests;
 }
 
+function roundUpTwoDigits(number) {
+    // округление до 2 знаков после запятой:
+    return Math.round((number + Number.EPSILON) * 100) / 100;
+}
+
 const billInput = document.getElementById("billInput");
 const tipOptionLabel = document.createElement("label");
 const billAmountSelector = document.getElementById("billAmountSelector");
 const numberOfGuestsSelector = document.getElementById("numberOfGuestsSelector");
-const billAmountWithTips = document.getElementById("billAmountWithTips");
+const billAmountWithTipsDisplay = document.getElementById("billAmountWithTips");
 const paymentPerPerson = document.getElementById("paymentPerPerson");
 
 let billAmount = 0;
+let billAmountWithTips = 0;
 let numberOfGuests = 1;
 let tipsPercentage = 0;
+
+billAmountSelector.value = billAmount;
+numberOfGuestsSelector.value = numberOfGuests;
 
 document.getElementById("checkPayTips").addEventListener("change", function () {
     if (this.checked) {
@@ -49,18 +79,47 @@ document.getElementById("checkPayTips").addEventListener("change", function () {
 
         billInput.appendChild(tipOptionLabel);
         billInput.appendChild(tipPercentageSelector);
+
+        billAmountWithTips = calculateBillAmountWithTips(billAmount, 10);
+        billAmountWithTips = roundUpTwoDigits(billAmountWithTips);
+        billAmountWithTipsDisplay.innerText = `${billAmountWithTips} руб.`;
+
+        let amountPerPerson = calculatePaymentPerPerson(billAmountWithTips, numberOfGuests);
+        amountPerPerson = roundUpTwoDigits(amountPerPerson);
+        paymentPerPerson.innerText = `${amountPerPerson} руб.`;
     } else {
         billInput.removeChild(billInput.lastChild);
         billInput.removeChild(billInput.lastChild);
+
+        billAmountWithTips = calculateBillAmountWithTips(billAmount, 0);
+        billAmountWithTips = roundUpTwoDigits(billAmountWithTips);
+        billAmountWithTipsDisplay.innerText = `${billAmountWithTips} руб.`;
+
+        let amountPerPerson = calculatePaymentPerPerson(billAmountWithTips, numberOfGuests);
+        amountPerPerson = roundUpTwoDigits(amountPerPerson);
+        paymentPerPerson.innerText = `${amountPerPerson} руб.`;
     }
 });
 
 billAmountSelector.addEventListener("change", function () {
-    // validateBillAmountValue(billAmountSelector.value);
-    billAmount = billAmountSelector.value;
+    billAmount = validateBillAmountValue(billAmountSelector.value);
+    billAmount = parseFloat(billAmount);
+    billAmountSelector.value = billAmount;
+    billAmountWithTips = calculateBillAmountWithTips(billAmount, tipsPercentage);
+    billAmountWithTips = roundUpTwoDigits(billAmount);
+    billAmountWithTipsDisplay.innerText = `${billAmountWithTips} руб.`;
+
+    let amountPerPerson = calculatePaymentPerPerson(billAmountWithTips, numberOfGuests);
+    amountPerPerson = roundUpTwoDigits(amountPerPerson);
+    paymentPerPerson.innerText = `${amountPerPerson} руб.`;
 });
 
 numberOfGuestsSelector.addEventListener("change", function () {
-    // validateNumberOfGuests(numberOfGuestsSelector.value);
-    numberOfGuests = numberOfGuestsSelector.value;
+    numberOfGuests = validateNumberOfGuests(numberOfGuestsSelector.value);
+    numberOfGuests = parseInt(numberOfGuests);
+    numberOfGuestsSelector.value = numberOfGuests;
+
+    let amountPerPerson = calculatePaymentPerPerson(billAmountWithTips, numberOfGuests);
+    amountPerPerson = roundUpTwoDigits(amountPerPerson);
+    paymentPerPerson.innerText = `${amountPerPerson} руб.`;
 });
