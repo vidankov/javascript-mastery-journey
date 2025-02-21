@@ -3,7 +3,7 @@ function createTipPercentageSelector() {
     tipPercentageSelector.setAttribute("type", "range");
     tipPercentageSelector.setAttribute("min", "10");
     tipPercentageSelector.setAttribute("max", "50");
-    tipPercentageSelector.setAttribute("step", "10");
+    tipPercentageSelector.setAttribute("step", "5");
     tipPercentageSelector.setAttribute("value", "10");
     return tipPercentageSelector;
 }
