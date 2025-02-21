@@ -15,11 +15,11 @@
             <label>
                 Количество гостей в счёте:
             </label>
-            <input type="text"/>
+            <input id="numberOfGuestsSelector" type="number" min="1" max="30" step="1"/>
             <label>
                 Сумма счёта:
             </label>
-            <input type="text"/>
+            <input id="billAmountSelector" type="number"/>
             <label>
                 Оставить чаевые?
             </label>
@@ -28,6 +28,15 @@
                 </div>
         </section>
         <section id="billDisplay">
+            <div id="billAmountWithTipsContainer">
+                <h3>Итого:</h3>
+                <div id="billAmountWithTips"></div>
+            </div>
+            <div id="paymentPerPersonContainer">
+                <h3>С человека:</h3>
+                <div id="paymentPerPerson"></div>
+            </div>
+            
         </section>
     </section>
 

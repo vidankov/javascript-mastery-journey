@@ -15,8 +15,24 @@ function setEventListenerToTipPercentageSelector(tipPercentageSelector, tipOptio
     tipOptionLabel.innerText = `Процент чаевых: ${tipPercentageSelector.value}%`;
 }
 
+function validateBillAmountValue(billAmountValue) {
+    //
+}
+
+function validateNumberOfGuests(numberOfGuestsValue) {
+    //
+}
+
 const billInput = document.getElementById("billInput");
 const tipOptionLabel = document.createElement("label");
+const billAmountSelector = document.getElementById("billAmountSelector");
+const numberOfGuestsSelector = document.getElementById("numberOfGuestsSelector");
+const billAmountWithTips = document.getElementById("billAmountWithTips");
+const paymentPerPerson = document.getElementById("paymentPerPerson");
+
+let billAmount = 0;
+let numberOfGuests = 1;
+let tipsPercentage = 0;
 
 document.getElementById("checkPayTips").addEventListener("change", function () {
     if (this.checked) {
@@ -30,3 +46,14 @@ document.getElementById("checkPayTips").addEventListener("change", function () {
         billInput.removeChild(billInput.lastChild);
     }
 });
+
+billAmountSelector.addEventListener("change", function () {
+    // validateBillAmountValue(billAmountSelector.value);
+    billAmount = billAmountSelector.value;
+});
+
+numberOfGuestsSelector.addEventListener("change", function () {
+    // validateNumberOfGuests(numberOfGuestsSelector.value);
+    numberOfGuests = numberOfGuestsSelector.value;
+});
+
