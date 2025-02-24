@@ -9,7 +9,7 @@ function createTipPercentageSelector() {
 }
 
 function setEventListenerToTipPercentageSelector(tipPercentageSelector, tipOptionLabel) {
-    tipPercentageSelector.addEventListener("change", function () {
+    tipPercentageSelector.addEventListener("input", function () {
         tipOptionLabel.innerText = `Процент чаевых: ${tipPercentageSelector.value}%`;
         tipsPercentage = parseInt(tipPercentageSelector.value);
         updateBillDisplay();
