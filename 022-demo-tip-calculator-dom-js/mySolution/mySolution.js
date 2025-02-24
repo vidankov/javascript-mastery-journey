@@ -1,22 +1,3 @@
-function createTipPercentageSelector() {
-    const tipPercentageSelector = document.createElement("input");
-    tipPercentageSelector.setAttribute("type", "range");
-    tipPercentageSelector.setAttribute("min", "10");
-    tipPercentageSelector.setAttribute("max", "50");
-    tipPercentageSelector.setAttribute("step", "5");
-    tipPercentageSelector.setAttribute("value", "10");
-    return tipPercentageSelector;
-}
-
-function setEventListenerToTipPercentageSelector(tipPercentageSelector, tipOptionLabel) {
-    tipPercentageSelector.addEventListener("input", function () {
-        tipOptionLabel.innerText = `Процент чаевых: ${tipPercentageSelector.value}%`;
-        tipsPercentage = parseInt(tipPercentageSelector.value);
-        updateBillDisplay();
-    });
-    tipOptionLabel.innerText = `Процент чаевых: ${tipPercentageSelector.value}%`;
-}
-
 function updateBillDisplay() {
     billAmountWithTips = calculateBillAmountWithTips(billAmount, tipsPercentage);
     billAmountWithTips = roundUpTwoDigits(billAmountWithTips);
@@ -25,6 +6,23 @@ function updateBillDisplay() {
     let amountPerPerson = calculatePaymentPerPerson(billAmountWithTips, numberOfGuests);
     amountPerPerson = roundUpTwoDigits(amountPerPerson);
     paymentPerPerson.innerText = `${amountPerPerson} руб.`;
+}
+
+function toggleTipPercentageSelectorVisibility() {
+    if (tipPercentageSelectorLabel.style.display == "block") {
+        tipPercentageSelectorLabel.style.display = "none";
+        tipPercentageSelector.style.display = "none";
+        tipsPercentage = 0;
+        updateBillDisplay();
+    }
+    else {
+        tipPercentageSelectorLabel.style.display = "block";
+        tipPercentageSelector.style.display = "block";
+        tipPercentageSelector.value = "10";
+        tipPercentageSelectorLabel.innerText = `Процент чаевых: ${tipPercentageSelector.value}%`;
+        tipsPercentage = 10;
+        updateBillDisplay();
+    }
 }
 
 function validateBillAmountValue(billAmountValue) {
@@ -61,11 +59,12 @@ function roundUpTwoDigits(number) {
 }
 
 const billInput = document.getElementById("billInput");
-const tipOptionLabel = document.createElement("label");
 const billAmountSelector = document.getElementById("billAmountSelector");
 const numberOfGuestsSelector = document.getElementById("numberOfGuestsSelector");
 const billAmountWithTipsDisplay = document.getElementById("billAmountWithTips");
 const paymentPerPerson = document.getElementById("paymentPerPerson");
+const tipPercentageSelectorLabel = document.getElementById("tipPercentageSelectorLabel");
+const tipPercentageSelector = document.getElementById("tipPercentageSelector");
 
 let billAmount = 0;
 let billAmountWithTips = 0;
@@ -75,24 +74,14 @@ let tipsPercentage = 0;
 billAmountSelector.value = billAmount;
 numberOfGuestsSelector.value = numberOfGuests;
 
-document.getElementById("checkPayTips").addEventListener("change", function () {
-    if (this.checked) {
-        const tipPercentageSelector = createTipPercentageSelector();
-        setEventListenerToTipPercentageSelector(tipPercentageSelector, tipOptionLabel);
+document.getElementById("checkPayTips").addEventListener("change", toggleTipPercentageSelectorVisibility);
 
-        billInput.appendChild(tipOptionLabel);
-        billInput.appendChild(tipPercentageSelector);
-
-        tipsPercentage = 10;
-        updateBillDisplay()
-    } else {
-        billInput.removeChild(billInput.lastChild);
-        billInput.removeChild(billInput.lastChild);
-
-        tipsPercentage = 0;
-        updateBillDisplay()
-    }
+tipPercentageSelector.addEventListener("input", function () {
+    tipPercentageSelectorLabel.innerText = `Процент чаевых: ${tipPercentageSelector.value}%`;
+    tipsPercentage = parseInt(tipPercentageSelector.value);
+    updateBillDisplay();
 });
+
 
 billAmountSelector.addEventListener("change", function () {
     billAmount = validateBillAmountValue(billAmountSelector.value);

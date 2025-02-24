@@ -15,17 +15,19 @@
             <label>
                 Количество гостей в счёте:
             </label>
-            <input id="numberOfGuestsSelector" type="number" min="1" max="30" step="1"/>
+            <input id="numberOfGuestsSelector" type="number" min="1" max="30" step="1" />
             <label>
                 Сумма счёта:
             </label>
-            <input id="billAmountSelector" type="number"/>
+            <input id="billAmountSelector" type="number" />
             <label>
                 Оставить чаевые?
             </label>
-                <div class="checkTips">
-                    <input id="checkPayTips" type="checkbox" value="" />
-                </div>
+            <div class="checkTips">
+                <input id="checkPayTips" type="checkbox" value="" />
+            </div>
+            <label id="tipPercentageSelectorLabel"></label>
+            <input id="tipPercentageSelector" type="range" min="10" max="50" step="5" value="10" />
         </section>
         <section id="billDisplay">
             <div id="billAmountWithTipsContainer">

@@ -75,3 +75,8 @@ input[type=checkbox] {
     align-self: center;
     margin: auto;
 }
+
+#tipPercentageSelector,
+#tipPercentageSelectorLabel {
+    display: none;
+}
